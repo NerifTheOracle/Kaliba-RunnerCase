@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: MovementData
   m_EditorClassIdentifier: 
   runSpeed: 5
-  slideSpeed: 35
-  SlideRange: 2
+  slideSpeed: 20
+  SlideRange: 3.5
   SWIPE_THRESHOLD: 20

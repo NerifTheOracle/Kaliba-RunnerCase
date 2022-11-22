@@ -57,27 +57,7 @@ namespace SA.Managers.Events
             autoUnregisterEvents.Clear();
         }
 
-        public void RegisterOnStationary(UnityAction<EventArgs> callback, bool autoUnregister)
-        {
-            onStationary += callback;
-            if (autoUnregister)
-            {
-                fastEvents.Add(new EventCallback(EventTypes.OnStationary, callback));
-            }
-        }
-
-        public void UnregisterOnStationary(UnityAction<EventArgs> callback)
-        {
-            onStationary -= callback;
-            EventCallback eventCallback = fastEvents.Find(x => x.eventType == EventTypes.OnStationary);
-            if (eventCallback != null)
-                fastEvents.Remove(eventCallback);
-        }
-
-        public void RunOnStationary(Vector3Args args)
-        {
-            onStationary?.Invoke(args);
-        }
+      
     }
 }
 
