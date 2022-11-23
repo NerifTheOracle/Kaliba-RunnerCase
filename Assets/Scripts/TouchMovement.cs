@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,23 +9,49 @@ public class TouchMovement : MonoBehaviour
     private float maxDisplacement = 0.01f;
     private Vector2 anchorPosition;
     private Vector2 anchorUpPosition;
+    private bool checkTouch;
     
     [SerializeField] private PlayerController _playerController;
-    
+
+    private void Start()
+    {
+        GameManager.Instance.EventManager.Register(EventTypes.LevelStart,StartTouch);
+        GameManager.Instance.EventManager.Register(EventTypes.LevelFail,StopTouch);
+        GameManager.Instance.EventManager.Register(EventTypes.LevelSuccess,StopTouch);
+        GameManager.Instance.EventManager.Register(EventTypes.LevelRestart,StopTouch);
+    }
+
+    void StartTouch(EventArgs args)
+    {
+        checkTouch = true;
+    }
+    void StopTouch(EventArgs args)
+    {
+        checkTouch = true;
+    }
+
+    private void CheckTouch()
+    {
+        if (checkTouch)
+        {
+            var inputX = GetInput();
+
+            var displacementX = GetDisplacement(inputX);
+
+            displacementX = SmoothOutDisplacement(displacementX)*_movementScriptable.slideSpeed;
+
+            var newPosition = GetNewLocalPosition(displacementX);
+
+            newPosition = GetLimitedLocalPosition(newPosition);
+
+            _playerController.transform.localPosition = newPosition;
+            MoveForward();
+        }
+       
+    }
     private void Update()
     {
-        var inputX = GetInput();
-
-        var displacementX = GetDisplacement(inputX);
-
-        displacementX = SmoothOutDisplacement(displacementX)*_movementScriptable.slideSpeed;
-
-        var newPosition = GetNewLocalPosition(displacementX);
-
-        newPosition = GetLimitedLocalPosition(newPosition);
-
-        _playerController.transform.localPosition = newPosition;
-        MoveForward();
+       CheckTouch();
     }
 
     void MoveForward()
