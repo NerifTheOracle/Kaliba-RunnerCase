@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using SA.Managers.Events;
 using UnityEngine;
 
 public class TouchMovement : MonoBehaviour
@@ -74,6 +75,7 @@ public class TouchMovement : MonoBehaviour
         }
         else
         {
+            EventRunner.ChangeCharacterType();
             Debug.Log("Its Tap");
         }
     }

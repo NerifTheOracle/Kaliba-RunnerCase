@@ -26,7 +26,10 @@ namespace SA.Managers.Events
         {
             GameManager.Instance.EventManager.InvokeEvent(EventTypes.LevelRestart);
         }
-        
+        public static void ChangeCharacterType()
+        {
+            GameManager.Instance.EventManager.InvokeEvent(EventTypes.ChangeCharacter);
+        }
         public static void EarnCurrency(int currencyId, float amount)
         {
             GameManager.Instance.EventManager.InvokeEvent(EventTypes.CurrencyEarned, new CurrencyArgs(currencyId, amount));

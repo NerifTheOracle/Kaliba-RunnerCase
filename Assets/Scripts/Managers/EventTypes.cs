@@ -7,11 +7,12 @@ public enum EventTypes
 	LevelRestart,
 	CurrencyEarned,
 	OnStationary,
+	ChangeCharacter,
 }
 
 public enum CharacterType
 {
 	Giant,
-	Small,
+	Minion,
 }
 
