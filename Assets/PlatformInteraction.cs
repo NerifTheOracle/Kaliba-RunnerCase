@@ -55,7 +55,7 @@ public class PlatformInteraction : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.playerController.LoseBlob();
+                GameManager.Instance.playerController.Scale(CharacterType.Giant);
             }
         }
     }

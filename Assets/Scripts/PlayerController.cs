@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
         var addblobamount = args as IntArgs;
         for (int i = 0; i < addblobamount.value; i++)
         {
-            GameObject go =  ObjectPool.Instance.GetObjFromPool(RandomCircle(transform.position, Random.Range(1,3), i));
+            GameObject go =  ObjectPool.Instance.GetObjFromPool(transform.position, Random.Range(2,5), i,minioncount);
             go.transform.parent = transform;
             go.transform.position = new Vector3(go.transform.position.x,0,go.transform.position.z);
             Minions.Add(go);
@@ -40,12 +40,13 @@ public class PlayerController : MonoBehaviour
         minioncount++;
         if (characterType == CharacterType.Minion)
         {
-            GameObject go =  ObjectPool.Instance.GetObjFromPool(RandomCircle(transform.position, Random.Range(1,3), 1));
+            GameObject go =  ObjectPool.Instance.GetObjFromPool(transform.position, Random.Range(2,5), 1,minioncount);
             go.transform.parent = transform; 
             go.transform.position = new Vector3(go.transform.position.x,0,go.transform.position.z); 
             Minions.Add(go);
             AnimationController.SetAnimation(1);
         }
+        Scale(characterType);
     }
     public void SwitchType(EventArgs args)
     {
@@ -66,19 +67,12 @@ public class PlayerController : MonoBehaviour
 
     void ChangeToGiant()
     {
-        transform.DOScale(transform.localScale * 2f/minioncount, 0.3f).SetEase(Ease.OutBounce).OnComplete(()=>FixFinalScale(Vector3.one * 2/minioncount));
+        Scale(CharacterType.Giant);
         GiantModel.SetActive(true);
         RemoveMinions();
     }
 
-    public void LoseBlob()
-    {
-        
-        if (characterType == CharacterType.Giant)
-        {
-            transform.DOScale(transform.localScale *2/ minioncount, 0.3f).OnComplete(()=>FixFinalScale(Vector3.one *2/ minioncount));
-        }
-    }
+    
     void FixFinalScale(Vector3 finalScale)
     {
         transform.localScale = finalScale;
@@ -89,7 +83,24 @@ public class PlayerController : MonoBehaviour
         Minions = new List<GameObject>();
         EventRunner.AddBlobs(minioncount);
         GiantModel.SetActive(false);
-        transform.DOScale(1, 0.3f).SetEase(Ease.InBounce).OnComplete(()=>FixFinalScale(Vector3.one));
+       Scale(CharacterType.Minion);
+    }
+
+    public void Scale(CharacterType ct)
+    {
+        switch (ct)
+        {
+            case CharacterType.Giant:
+                transform.DOScale(Vector3.one+Vector3.one * (minioncount*0.1f), 0.3f).SetEase(Ease.OutBounce).OnComplete(()=>FixFinalScale(Vector3.one+Vector3.one * (minioncount*0.1f)));
+                break;
+            case CharacterType.Minion:
+                transform.DOScale(1, 0.3f).SetEase(Ease.InBounce).OnComplete(()=>FixFinalScale(Vector3.one));
+                for (int i = 0; i < Minions.Count; i++)
+                {
+                    Minions[i].transform.localScale =Vector3.one/2;
+                }
+                break;
+        }
     }
 
     void RemoveMinions()
@@ -102,15 +113,7 @@ public class PlayerController : MonoBehaviour
         Minions.TrimExcess();
     }
 
-    Vector3 RandomCircle(Vector3 center, float radius,int a)
-    {
-        float ang = 360 / minioncount * a;
-        Vector3 pos;
-        pos.x = center.x + radius * Mathf.Sin(ang * Mathf.Deg2Rad);
-        pos.y = center.y;
-        pos.z = center.z + radius * Mathf.Cos(ang * Mathf.Deg2Rad);;
-        return pos;
-    }
+   
     
 }
 

@@ -1640,6 +1640,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3307333623570963787, guid: eac97f5e71d49f84e90cd274f4f5f98b, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3320492800273148953, guid: eac97f5e71d49f84e90cd274f4f5f98b, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -1654,7 +1658,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4443820214231446296, guid: eac97f5e71d49f84e90cd274f4f5f98b, type: 3}
       propertyPath: minioncount
-      value: 1
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4443820214231446300, guid: eac97f5e71d49f84e90cd274f4f5f98b, type: 3}
       propertyPath: m_RootOrder

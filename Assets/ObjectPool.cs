@@ -35,7 +35,7 @@ public class ObjectPool : Singleton<ObjectPool>
     }
 
 
-    public GameObject GetObjFromPool(Vector3 pos) 
+    public GameObject GetObjFromPool(Vector3 center, float radius,int a,int numberofminion) 
     {
         if(_ObjectPool.Count <=0) 
         {
@@ -43,17 +43,22 @@ public class ObjectPool : Singleton<ObjectPool>
         }
         
         GameObject instantiatedGO = _ObjectPool.Dequeue();
-        instantiatedGO.transform.position = pos; 
+        instantiatedGO.transform.position = RandomCircle(center,radius,a,numberofminion); 
         instantiatedGO.SetActive(true);
 
         return instantiatedGO;
 
     }
-
-    public void SpawnObj(Transform pos)
+    Vector3 RandomCircle(Vector3 center, float radius,int a,int minioncount)
     {
-        GetObjFromPool(pos.position);
+        float ang = 360 / minioncount * a;
+        Vector3 pos;
+        pos.x = center.x + radius * Mathf.Sin(ang * Mathf.Deg2Rad);
+        pos.y = center.y;
+        pos.z = center.z + radius * Mathf.Cos(ang * Mathf.Deg2Rad);;
+        return pos;
     }
+    
 
     public void ReturnObjToPool(GameObject go)  
     {
