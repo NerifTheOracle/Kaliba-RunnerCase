@@ -8,17 +8,28 @@ public enum EventTypes
 	CurrencyEarned,
 	OnStationary,
 	ChangeCharacter,
+	Platformactivated,
 }
 
 public enum CharacterType
 {
 	Giant,
 	Minion,
+	Both
 }
 
-public enum DamageType
+public enum PlatformType
 {
-	
+	Jump,
+	Fall,
+	Flyup,
+	Flyright,
+	Flyleft,
+	Lava,
+	Hammer,
+	Knife,
+	Saw,
+	Sling,
 }
 
 

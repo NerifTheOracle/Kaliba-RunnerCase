@@ -9,6 +9,8 @@ public class GameManager : Singleton<GameManager>
  private EventManager eventManager;
  public EventManager EventManager { get => eventManager; }
 
+ public PlayerController playerController;
+
  public void Initialize()
  {
   eventManager = new EventManager();

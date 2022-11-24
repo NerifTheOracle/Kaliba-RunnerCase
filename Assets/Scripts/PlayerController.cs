@@ -7,14 +7,17 @@ using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
+    public AnimationController AnimationController;
     [HideInInspector]public List<GameObject> Minions;
     public GameObject GiantModel;
-    [SerializeField]private int minioncount=2;
-    [SerializeField] private CharacterType characterType;
+    public int minioncount=2;
+    [SerializeField] public CharacterType characterType;
 
     private void Start()
     {
+        GameManager.Instance.playerController = this;
         GameManager.Instance.EventManager.Register(EventTypes.ChangeCharacter,SwitchType);
+        AnimationController = GetComponent<AnimationController>();
         ChangeToGiant();
     }
 
@@ -25,12 +28,12 @@ public class PlayerController : MonoBehaviour
             case CharacterType.Giant:
                 characterType = CharacterType.Minion;
                 ChangeToMinion();
-                GetComponent<AnimationController>().SetAnimation(1);
+                AnimationController.SetAnimation(1);
                 break;
             case CharacterType.Minion:
                 characterType = CharacterType.Giant;
                 ChangeToGiant();
-                GetComponent<AnimationController>().SetAnimation(1);
+                AnimationController.SetAnimation(1);
                 break;
         }
     }
@@ -42,6 +45,14 @@ public class PlayerController : MonoBehaviour
         RemoveMinions();
     }
 
+    public void LoseBlob()
+    {
+        
+        if (characterType == CharacterType.Giant)
+        {
+            transform.DOScale(transform.localScale * minioncount/6f, 0.3f).OnComplete(()=>FixFinalScale(Vector3.one * minioncount/6f));
+        }
+    }
     void FixFinalScale(Vector3 finalScale)
     {
         transform.localScale = finalScale;

@@ -30,9 +30,13 @@ namespace SA.Managers.Events
         {
             GameManager.Instance.EventManager.InvokeEvent(EventTypes.ChangeCharacter);
         }
-        public static void EarnCurrency(int currencyId, float amount)
+        public static void EarnCurrency( float amount)
         {
-            GameManager.Instance.EventManager.InvokeEvent(EventTypes.CurrencyEarned, new CurrencyArgs(currencyId, amount));
+            GameManager.Instance.EventManager.InvokeEvent(EventTypes.CurrencyEarned, new CurrencyArgs( amount));
+        }
+        public static void PlatformEffect(PlatformType platformType,GameObject effectedGameObject,CharacterType characterType)
+        {
+            GameManager.Instance.EventManager.InvokeEvent(EventTypes.Platformactivated, new PlatformTypeArgs(platformType, effectedGameObject,characterType));
         }
 
       
