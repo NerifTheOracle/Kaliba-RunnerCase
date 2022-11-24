@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
-    public GameObject MinionPref;
-    public List<GameObject> Minions;
+    [HideInInspector]public List<GameObject> Minions;
     public GameObject GiantModel;
     [SerializeField]private int minioncount=2;
     [SerializeField] private CharacterType characterType;
@@ -25,10 +25,12 @@ public class PlayerController : MonoBehaviour
             case CharacterType.Giant:
                 characterType = CharacterType.Minion;
                 ChangeToMinion();
+                GetComponent<AnimationController>().SetAnimation(1);
                 break;
             case CharacterType.Minion:
                 characterType = CharacterType.Giant;
                 ChangeToGiant();
+                GetComponent<AnimationController>().SetAnimation(1);
                 break;
         }
     }
@@ -47,11 +49,10 @@ public class PlayerController : MonoBehaviour
 
     void ChangeToMinion()
     {
-       
+        Minions = new List<GameObject>();
         for (int i = 0; i < minioncount; i++)
         {
-            //I will add object pooling later :D 
-            GameObject go = Instantiate(MinionPref, RandomCircle(transform.position, 3, i), Quaternion.identity);
+            GameObject go =  ObjectPool.Instance.GetObjFromPool(RandomCircle(transform.position, Random.Range(1,3), i));
             go.transform.parent = transform;
             go.transform.position = new Vector3(go.transform.position.x,0,go.transform.position.z);
             Minions.Add(go);

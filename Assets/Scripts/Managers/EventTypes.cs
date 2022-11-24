@@ -16,3 +16,9 @@ public enum CharacterType
 	Minion,
 }
 
+public enum DamageType
+{
+	
+}
+
+
