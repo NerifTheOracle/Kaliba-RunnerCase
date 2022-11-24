@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using SA.Managers.Events;
 using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
@@ -17,10 +18,35 @@ public class PlayerController : MonoBehaviour
     {
         GameManager.Instance.playerController = this;
         GameManager.Instance.EventManager.Register(EventTypes.ChangeCharacter,SwitchType);
+        GameManager.Instance.EventManager.Register(EventTypes.Addblobs,AddBlobs);
+        GameManager.Instance.EventManager.Register(EventTypes.AddBlob,AddBlob);
         AnimationController = GetComponent<AnimationController>();
         ChangeToGiant();
     }
 
+    void AddBlobs(EventArgs args)
+    {
+        var addblobamount = args as IntArgs;
+        for (int i = 0; i < addblobamount.value; i++)
+        {
+            GameObject go =  ObjectPool.Instance.GetObjFromPool(RandomCircle(transform.position, Random.Range(1,3), i));
+            go.transform.parent = transform;
+            go.transform.position = new Vector3(go.transform.position.x,0,go.transform.position.z);
+            Minions.Add(go);
+        }
+    }
+    void AddBlob(EventArgs args)
+    {
+        minioncount++;
+        if (characterType == CharacterType.Minion)
+        {
+            GameObject go =  ObjectPool.Instance.GetObjFromPool(RandomCircle(transform.position, Random.Range(1,3), 1));
+            go.transform.parent = transform; 
+            go.transform.position = new Vector3(go.transform.position.x,0,go.transform.position.z); 
+            Minions.Add(go);
+            AnimationController.SetAnimation(1);
+        }
+    }
     public void SwitchType(EventArgs args)
     {
         switch (characterType)
@@ -40,7 +66,7 @@ public class PlayerController : MonoBehaviour
 
     void ChangeToGiant()
     {
-        transform.DOScale(transform.localScale * minioncount/6f, 0.3f).SetEase(Ease.OutBounce).OnComplete(()=>FixFinalScale(Vector3.one * minioncount/6f));
+        transform.DOScale(transform.localScale * 2f/minioncount, 0.3f).SetEase(Ease.OutBounce).OnComplete(()=>FixFinalScale(Vector3.one * 2/minioncount));
         GiantModel.SetActive(true);
         RemoveMinions();
     }
@@ -50,7 +76,7 @@ public class PlayerController : MonoBehaviour
         
         if (characterType == CharacterType.Giant)
         {
-            transform.DOScale(transform.localScale * minioncount/6f, 0.3f).OnComplete(()=>FixFinalScale(Vector3.one * minioncount/6f));
+            transform.DOScale(transform.localScale *2/ minioncount, 0.3f).OnComplete(()=>FixFinalScale(Vector3.one *2/ minioncount));
         }
     }
     void FixFinalScale(Vector3 finalScale)
@@ -61,13 +87,7 @@ public class PlayerController : MonoBehaviour
     void ChangeToMinion()
     {
         Minions = new List<GameObject>();
-        for (int i = 0; i < minioncount; i++)
-        {
-            GameObject go =  ObjectPool.Instance.GetObjFromPool(RandomCircle(transform.position, Random.Range(1,3), i));
-            go.transform.parent = transform;
-            go.transform.position = new Vector3(go.transform.position.x,0,go.transform.position.z);
-            Minions.Add(go);
-        }
+        EventRunner.AddBlobs(minioncount);
         GiantModel.SetActive(false);
         transform.DOScale(1, 0.3f).SetEase(Ease.InBounce).OnComplete(()=>FixFinalScale(Vector3.one));
     }

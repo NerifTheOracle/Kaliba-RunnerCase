@@ -9,6 +9,8 @@ public enum EventTypes
 	OnStationary,
 	ChangeCharacter,
 	Platformactivated,
+	Addblobs,
+	AddBlob,
 }
 
 public enum CharacterType
@@ -31,5 +33,11 @@ public enum PlatformType
 	Saw,
 	Sling,
 }
+public enum CollectableType
+{
+	Gold,
+	Blob,
+}
+
 
 

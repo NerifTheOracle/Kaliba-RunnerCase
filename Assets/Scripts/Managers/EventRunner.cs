@@ -38,6 +38,14 @@ namespace SA.Managers.Events
         {
             GameManager.Instance.EventManager.InvokeEvent(EventTypes.Platformactivated, new PlatformTypeArgs(platformType, effectedGameObject,characterType));
         }
+        public static void AddBlobs( int amount)
+        {
+            GameManager.Instance.EventManager.InvokeEvent(EventTypes.Addblobs, new IntArgs( amount));
+        }
+        public static void AddBlob( )
+        {
+            GameManager.Instance.EventManager.InvokeEvent(EventTypes.AddBlob);
+        }
 
       
     
