@@ -28,7 +28,7 @@ public class TouchMovement : MonoBehaviour
     }
     void StopTouch(EventArgs args)
     {
-        checkTouch = true;
+        checkTouch = false;
     }
 
     private void CheckTouch()

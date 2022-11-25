@@ -113,6 +113,17 @@ public class PlayerController : MonoBehaviour
         Minions.TrimExcess();
     }
 
+    public void CheckHP()
+    {
+        if (minioncount <=0)
+        {
+            EventRunner.LevelFail();
+        }
+    }
+    public void Die()
+    {
+        AnimationController.Dies(GiantModel.GetComponent<Animator>());
+    }
    
     
 }

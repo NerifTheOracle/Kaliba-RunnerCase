@@ -31,7 +31,8 @@ public enum PlatformType
 	Hammer,
 	Knife,
 	Saw,
-	Sling,
+	Spike,
+
 }
 public enum CollectableType
 {

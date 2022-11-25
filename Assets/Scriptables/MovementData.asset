@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47a201abda13a2d499bc3a682eac9ce7, type: 3}
   m_Name: MovementData
   m_EditorClassIdentifier: 
-  runSpeed: 5
+  runSpeed: 9
   slideSpeed: 20
   SlideRange: 3.5
   SWIPE_THRESHOLD: 20
