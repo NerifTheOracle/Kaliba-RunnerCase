@@ -24,7 +24,7 @@ public class UIManager : Singleton<UIManager>
         GameManager.Instance.EventManager.Register(EventTypes.LevelRestart,GameRestarted);
         GameManager.Instance.EventManager.Register(EventTypes.CurrencyEarned,CurrencyEarned);
         CurrencyAmount.text = PlayerPrefs.GetInt("Gold").ToString()+"$";
-        leveltext.text = PlayerPrefs.GetInt("Level").ToString();
+        leveltext.text = (PlayerPrefs.GetInt("Level")+1).ToString();
     }
 
     void CurrencyEarned(EventArgs args)
