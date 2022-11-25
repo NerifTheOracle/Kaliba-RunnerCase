@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using SA.Managers.Events;
-using Unity.VisualScripting;
 using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
