@@ -1,18 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class LevelManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+   [SerializeField] private GameObject[] Levels;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   private void Start()
+   {
+      int currentlvl = PlayerPrefs.GetInt("Level");
+      if (currentlvl > Levels.Length-1)
+      {
+         var rnd = Random.Range(0, Levels.Length);
+         Levels[rnd].SetActive(true);
+      }
+      else
+      {
+         Levels[currentlvl].SetActive(true);
+      }
+   }
 }

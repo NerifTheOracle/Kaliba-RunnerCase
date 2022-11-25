@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using SA.Managers.Events;
+using Unity.VisualScripting;
 using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public GameObject GiantModel;
     public int minioncount=2;
     [SerializeField] public CharacterType characterType;
+    [SerializeField] private Transform ChildHolder;
 
     private void Start()
     {
@@ -23,6 +25,7 @@ public class PlayerController : MonoBehaviour
         AnimationController = GetComponent<AnimationController>();
         ChangeToGiant();
     }
+    
 
     void AddBlobs(EventArgs args)
     {
@@ -30,10 +33,10 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < addblobamount.value; i++)
         {
             GameObject go =  ObjectPool.Instance.GetObjFromPool(transform.position, Random.Range(2,5), i,minioncount);
-            go.transform.parent = transform;
-            go.transform.position = new Vector3(go.transform.position.x,0,go.transform.position.z);
+            go.transform.parent = ChildHolder;
             Minions.Add(go);
         }
+        Scale(characterType);
     }
     void AddBlob(EventArgs args)
     {
@@ -41,8 +44,7 @@ public class PlayerController : MonoBehaviour
         if (characterType == CharacterType.Minion)
         {
             GameObject go =  ObjectPool.Instance.GetObjFromPool(transform.position, Random.Range(2,5), 1,minioncount);
-            go.transform.parent = transform; 
-            go.transform.position = new Vector3(go.transform.position.x,0,go.transform.position.z); 
+            go.transform.parent = ChildHolder;
             Minions.Add(go);
             AnimationController.SetAnimation(1);
         }
@@ -71,7 +73,6 @@ public class PlayerController : MonoBehaviour
         GiantModel.SetActive(true);
         RemoveMinions();
     }
-
     
     void FixFinalScale(Vector3 finalScale)
     {
@@ -83,7 +84,6 @@ public class PlayerController : MonoBehaviour
         Minions = new List<GameObject>();
         EventRunner.AddBlobs(minioncount);
         GiantModel.SetActive(false);
-       Scale(CharacterType.Minion);
     }
 
     public void Scale(CharacterType ct)
@@ -118,11 +118,24 @@ public class PlayerController : MonoBehaviour
         if (minioncount <=0)
         {
             EventRunner.LevelFail();
+            Die();
         }
     }
     public void Die()
     {
         AnimationController.Dies(GiantModel.GetComponent<Animator>());
+    }
+    void FixMinionsPos()
+    {
+        for (int i = 0; i < Minions.Count; i++)
+        {
+            Minions[i].transform.localPosition = new Vector3(Minions[i].transform.localPosition.x, -1, Minions[i].transform.localPosition.z);
+        }
+    }
+
+    private void LateUpdate()
+    {
+        FixMinionsPos();
     }
    
     

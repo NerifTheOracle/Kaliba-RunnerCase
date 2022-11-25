@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using SA.Managers.Events;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +12,9 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private GameObject WinPanel;
     [SerializeField] private GameObject LosePanel;
     [SerializeField] private GameObject MainPanel;
-    [Header("MENU ITEMS")] public Text leveltext;
+    [Header("MENU ITEMS")]
+    public TextMeshProUGUI leveltext;
+    public TextMeshProUGUI CurrencyAmount;
 
     private void Start()
     {
@@ -18,9 +22,18 @@ public class UIManager : Singleton<UIManager>
         GameManager.Instance.EventManager.Register(EventTypes.LevelSuccess,GameWin);
         GameManager.Instance.EventManager.Register(EventTypes.LevelFail,GameLose);
         GameManager.Instance.EventManager.Register(EventTypes.LevelRestart,GameRestarted);
-        
+        GameManager.Instance.EventManager.Register(EventTypes.CurrencyEarned,CurrencyEarned);
+        CurrencyAmount.text = PlayerPrefs.GetInt("Gold").ToString()+"$";
+        leveltext.text = PlayerPrefs.GetInt("Level").ToString();
     }
 
+    void CurrencyEarned(EventArgs args)
+    {
+        var amount = args as CurrencyArgs;
+        PlayerPrefs.SetInt("Gold",PlayerPrefs.GetInt("Gold")+amount.changeAmount);
+        CurrencyAmount.text = PlayerPrefs.GetInt("Gold").ToString()+"$";
+    }
+    
     void GameStarted(EventArgs args)
     {
         StartPanel.SetActive(false);

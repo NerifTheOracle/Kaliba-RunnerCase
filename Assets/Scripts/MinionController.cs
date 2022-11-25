@@ -13,10 +13,7 @@ public class MinionController : MonoBehaviour
         ObjectPool.Instance.ReturnObjToPool(gameObject);
     }
 
-    void Start()
-    {
-       
-    }
+   
 
     public void Die()
     {

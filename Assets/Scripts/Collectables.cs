@@ -17,6 +17,7 @@ public class Collectables : MonoBehaviour
             {
                 case CollectableType.Gold:
                     EventRunner.EarnCurrency(10);
+                    ParticlePool.Instance.GetObjFromPool(transform.position);
                     break;
                 case CollectableType.Blob:
                     EventRunner.AddBlob();

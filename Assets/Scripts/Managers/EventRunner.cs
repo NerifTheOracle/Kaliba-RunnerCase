@@ -30,7 +30,7 @@ namespace SA.Managers.Events
         {
             GameManager.Instance.EventManager.InvokeEvent(EventTypes.ChangeCharacter);
         }
-        public static void EarnCurrency( float amount)
+        public static void EarnCurrency( int amount)
         {
             GameManager.Instance.EventManager.InvokeEvent(EventTypes.CurrencyEarned, new CurrencyArgs( amount));
         }

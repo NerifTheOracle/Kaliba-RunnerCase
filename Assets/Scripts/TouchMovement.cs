@@ -11,7 +11,7 @@ public class TouchMovement : MonoBehaviour
     private Vector2 anchorPosition;
     private Vector2 anchorUpPosition;
     private bool checkTouch;
-    
+    private float cd;
     [SerializeField] private PlayerController _playerController;
 
     private void Start()
@@ -53,6 +53,7 @@ public class TouchMovement : MonoBehaviour
     private void Update()
     {
        CheckTouch();
+       cd -= Time.deltaTime;
     }
 
     void MoveForward()
@@ -64,20 +65,11 @@ public class TouchMovement : MonoBehaviour
     void DetectTap()
     {
 
-        if (VerticalMoveValue() > _movementScriptable.SWIPE_THRESHOLD && VerticalMoveValue() > HorizontalMoveValue())
-        {
-            
-
-        }
-        else if (HorizontalMoveValue() > _movementScriptable.SWIPE_THRESHOLD && HorizontalMoveValue() > VerticalMoveValue())
-        {
-           
-        }
-        else
+        if (VerticalMoveValue() < _movementScriptable.SWIPE_THRESHOLD && HorizontalMoveValue() < _movementScriptable.SWIPE_THRESHOLD && cd >0)
         {
             EventRunner.ChangeCharacterType();
-            Debug.Log("Its Tap");
         }
+       
     }
     private Vector3 GetLimitedLocalPosition(Vector3 position)
     {
@@ -99,6 +91,7 @@ public class TouchMovement : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             anchorPosition = Input.mousePosition;
+            cd = 0.2f;
         }
 
         else if (Input.GetMouseButton(0))
@@ -135,4 +128,5 @@ public class TouchMovement : MonoBehaviour
     {
         return Mathf.Clamp(displacementX, -maxDisplacement , maxDisplacement);
     }
+    
 }

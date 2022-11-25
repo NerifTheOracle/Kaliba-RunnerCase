@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using SA.Managers.Events;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -28,7 +29,7 @@ public class GameManager : Singleton<GameManager>
  }
  public void RestartGame()
  {
-  EventRunner.LevelRestart();
+  SceneManager.LoadScene(SceneManager.GetActiveScene().name);
  }
  public void LevelFailed()
  {
@@ -36,6 +37,8 @@ public class GameManager : Singleton<GameManager>
  }
  public void LevelSuccessful()
  {
-  EventRunner.LevelSuccess();
+  PlayerPrefs.SetInt("Level",PlayerPrefs.GetInt("Level")+1);
+  Debug.Log(PlayerPrefs.GetInt("Level"));
+  RestartGame();
  }
 }

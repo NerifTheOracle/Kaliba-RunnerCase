@@ -5,9 +5,9 @@ namespace SA.Managers.Events
 {
     public class CurrencyArgs : EventArgs
     {
-        public float changeAmount;
+        public int changeAmount;
 
-        public CurrencyArgs( float changeAmount)
+        public CurrencyArgs( int changeAmount)
         {
             this.changeAmount = changeAmount;
         }

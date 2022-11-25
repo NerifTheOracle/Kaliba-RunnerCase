@@ -78,6 +78,8 @@ public class PlatformInteraction : MonoBehaviour
     void FlyForDuration(float duration)
     {
         transform.DOMoveY(transform.position.y + 8, duration);
+        playerController.AnimationController.SetAnimation(2);
+        DOVirtual.DelayedCall(1, ()=> playerController.AnimationController.SetAnimation(1));
     }
 
     void GiantInstantDead(PlatformTypeArgs effect)
